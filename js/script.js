@@ -116,10 +116,14 @@ const checkClick = event => {
 
 const editTask = () => {
 	const editedTask = document.getElementById(EDITED_TODO_ID); // Pobierz edytowane zadanie na podstawie ID
-	const editedTaskText = POPUP_INPUT.value; // Nowy tekst zadania z popupu
-	editedTask.innerText = editedTaskText; // Zaktualizuj tekst zadania
-	createToolsArea();
-	closePopup(); // Zamknij popup
+	if (POPUP_INPUT.value !== '') {
+		const editedTaskText = POPUP_INPUT.value; // Nowy tekst zadania z popupu
+		editedTask.textContent = editedTaskText; // Zaktualizuj tekst zadania
+		createToolsArea();
+		closePopup(); // Zamknij popup
+	} else {
+		POPUP_INFO.textContent = 'Wprowadź nową treść zadania!';
+	}
 };
 
 const closePopup = () => {
