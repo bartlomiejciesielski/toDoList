@@ -97,17 +97,21 @@ const createToolsArea = type => {
 const checkClick = event => {
 	const clickedElement = event.target.closest('button');
 	const listItem = clickedElement.closest('li'); // Znajdź najbliższy element LI
+	console.log(listItem);
 
 	if (clickedElement.classList.contains('complete')) {
 		// Obsługa kliknięcia przycisku "complete"
 		listItem.classList.toggle('completed'); // Dodaj klasę "completed" do LI
 	} else if (clickedElement.classList.contains('edit')) {
-		// Przypisz ID zadania do zmiennej EDITED_TODO_ID
-		EDITED_TODO_ID = listItem.getAttribute('id');
-		// Pobierz tekst zadania i ustaw go jako wartość w popupie
-		const taskText = listItem.innerText;
-		POPUP_INPUT.value = taskText;
-		POPUP.style.display = 'flex';
+
+		// Obsługa kliknięcia przycisku "Edytuj"
+		const taskText = listItem.firstChild.textContent; // Pobierz tekst zadania (sam tekst zadania)
+		EDITED_TODO = listItem; // Przypisz edytowane zadanie (LI) do zmiennej globalnej EDITED_TODO
+		EDITED_TODO_ID = listItem.getAttribute('id'); // Pobierz ID zadania do edycji
+		POPUP_INPUT.value = taskText; // Wprowadź aktualny tekst zadania do popupa
+		POPUP.style.display = 'block'; // Wyświetl popup
+
+		
 	} else if (clickedElement.classList.contains('delete')) {
 		// Obsługa kliknięcia przycisku "delete"
 		listItem.remove(); // Usunięcie elementu LI
@@ -118,7 +122,7 @@ const editTask = () => {
 	const editedTask = document.getElementById(EDITED_TODO_ID); // Pobierz edytowane zadanie na podstawie ID
 	if (POPUP_INPUT.value !== '') {
 		const editedTaskText = POPUP_INPUT.value; // Nowy tekst zadania z popupu
-		editedTask.innerText = editedTaskText; // Zaktualizuj tekst zadania
+		editedTask.textContent = editedTaskText; // Zaktualizuj tekst zadania
 		createToolsArea();
 		closePopup(); // Zamknij popup
 	} else {
